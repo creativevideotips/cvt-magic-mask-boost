@@ -11,6 +11,12 @@ redistribute them for payment.
 
 ![The Setup 1 (4K) node row in the Fusion node editor](images/magic-mask-boost-node-row.webp)
 
+## Video walkthrough
+
+Watch it on YouTube: [Resolve Magic Mask "Boost" Macro](https://youtu.be/R605dINlNYA)
+
+[![Resolve Magic Mask "Boost" Macro on YouTube](https://img.youtube.com/vi/R605dINlNYA/maxresdefault.jpg)](https://youtu.be/R605dINlNYA)
+
 ## How it works
 
 Each Setup macro drops one row of nodes inside a labelled underlay:

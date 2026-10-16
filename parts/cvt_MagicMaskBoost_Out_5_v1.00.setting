@@ -1,0 +1,107 @@
+-- cvt_MagicMaskBoost_Out_5_v1.00
+-- Created by Chadwick / Creative Video Tips (https://creativevideotips.com)
+-- Free to share, not for resale.
+-- STEP 2 of 2 (pair 5). Magic Mask output -> this node. Reads the crop from cvt_MagicMaskBoost_In_5.
+{
+	Tools = ordered() {
+		cvt_MagicMaskBoost_Out_5 = MacroOperator {
+			CtrlWZoom = false,
+			CustomData = {
+				HelpPage = "https://creativevideotips.com",
+				Credit = "Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.",
+			},
+			Inputs = ordered() {
+				Comments = Input { Value = "Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.", },
+				MainInput1 = InstanceInput {
+					SourceOp = "DownRes_5",
+					Source = "Input",
+					Name = "Magic Mask Input",
+				},
+				DownFilterMethod = InstanceInput {
+					SourceOp = "DownRes_5",
+					Source = "FilterMethod",
+					Name = "Downscale Filter Method",
+					Page = "Resize",
+				},
+				DownWindowMethod = InstanceInput {
+					SourceOp = "DownRes_5",
+					Source = "WindowMethod",
+					Name = "Downscale Window Method",
+					Page = "Resize",
+				},
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "FinalBitmap_5",
+					Source = "Mask",
+				},
+			},
+			ViewInfo = GroupInfo {
+				Pos = { 0, 0 },
+				Flags = { Expanded = true, AllowPan = false, GridSnap = true, ShowGrid = false, AutoSnap = true, RemoveRouters = false },
+				Size = { 300, 300, 150, 24 },
+				Direction = "Vertical",
+				PipeStyle = "Direct",
+				Scale = 1,
+				Offset = { 0, 0 }
+			},
+			Tools = ordered() {
+				DownRes_5 = BetterResize {
+					Inputs = {
+						Width = Input {
+							Value = 100,
+							Expression = "CropIn_5.XSize",
+						},
+						Height = Input {
+							Value = 100,
+							Expression = "CropIn_5.YSize",
+						},
+						KeepAspect = Input { Value = 0, },
+						HiQOnly = Input { Value = 0, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+					},
+					ViewInfo = OperatorInfo { Pos = { 0, 66 } },
+				},
+				PlaceBack_5 = Crop {
+					Inputs = {
+						XOffset = Input {
+							Value = 0,
+							Expression = "-CropIn_5.XOffset",
+						},
+						YOffset = Input {
+							Value = 0,
+							Expression = "-CropIn_5.YOffset",
+						},
+						XSize = Input {
+							Value = 3840,
+							Expression = "FrameProbe_5.XSize",
+						},
+						YSize = Input {
+							Value = 2160,
+							Expression = "FrameProbe_5.YSize",
+						},
+						Input = Input {
+							SourceOp = "DownRes_5",
+							Source = "Output",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 0, 132 } },
+				},
+				FinalBitmap_5 = BitmapMask {
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" }, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						UseFrameFormatSettings = Input { Value = 1, },
+						ClippingMode = Input { Value = FuID { "None" }, },
+						Channel = Input { Value = FuID { "Alpha" }, },
+						Image = Input {
+							SourceOp = "PlaceBack_5",
+							Source = "Output",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 0, 198 } },
+				},
+			},
+		},
+	}
+}

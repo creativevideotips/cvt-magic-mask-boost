@@ -1,0 +1,183 @@
+-- cvt_MagicMaskBoost_In_3_v1.00
+-- Created by Chadwick / Creative Video Tips (https://creativevideotips.com)
+-- Free to share, not for resale.
+-- STEP 1 of 2 (pair 3). Image -> this node -> your normal Magic Mask node -> cvt_MagicMaskBoost_Out_3. Drag the crop box in the viewer.
+{
+	Tools = ordered() {
+		cvt_MagicMaskBoost_In_3 = MacroOperator {
+			CtrlWZoom = false,
+			CustomData = {
+				HelpPage = "https://creativevideotips.com",
+				Credit = "Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.",
+			},
+			Inputs = ordered() {
+				Comments = Input { Value = "Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.", },
+				MainInput1 = InstanceInput {
+					SourceOp = "CropIn_3",
+					Source = "Input",
+					Name = "Image Input",
+				},
+				CropCenter = InstanceInput {
+					SourceOp = "CropBox_3",
+					Source = "Center",
+					Name = "Crop Box Center",
+					Page = "Crop",
+				},
+				CropWidth = InstanceInput {
+					SourceOp = "CropBox_3",
+					Source = "Width",
+					Name = "Crop Box Width",
+					Page = "Crop",
+					Default = 0.4,
+				},
+				CropHeight = InstanceInput {
+					SourceOp = "CropBox_3",
+					Source = "Height",
+					Name = "Crop Box Height",
+					Page = "Crop",
+					Default = 0.4,
+				},
+				UpscaleWidth = InstanceInput {
+					SourceOp = "UpRes_3",
+					Source = "Width",
+					Name = "Upscale Width (px)",
+					Page = "Crop",
+					Default = 3840,
+				},
+				UpFilterMethod = InstanceInput {
+					SourceOp = "UpRes_3",
+					Source = "FilterMethod",
+					Name = "Upscale Filter Method",
+					Page = "Crop",
+				},
+				UpWindowMethod = InstanceInput {
+					SourceOp = "UpRes_3",
+					Source = "WindowMethod",
+					Name = "Upscale Window Method",
+					Page = "Crop",
+				},
+				CropXOffset = InstanceInput {
+					SourceOp = "CropIn_3",
+					Source = "XOffset",
+					Name = "Crop X Offset (read only)",
+					Page = "Readout",
+				},
+				CropYOffset = InstanceInput {
+					SourceOp = "CropIn_3",
+					Source = "YOffset",
+					Name = "Crop Y Offset (read only)",
+					Page = "Readout",
+				},
+				CropXSize = InstanceInput {
+					SourceOp = "CropIn_3",
+					Source = "XSize",
+					Name = "Crop Width px (read only)",
+					Page = "Readout",
+				},
+				CropYSize = InstanceInput {
+					SourceOp = "CropIn_3",
+					Source = "YSize",
+					Name = "Crop Height px (read only)",
+					Page = "Readout",
+				},
+				FrameWidth = InstanceInput {
+					SourceOp = "FrameProbe_3",
+					Source = "XSize",
+					Name = "Frame Width px (read only)",
+					Page = "Readout",
+				},
+				FrameHeight = InstanceInput {
+					SourceOp = "FrameProbe_3",
+					Source = "YSize",
+					Name = "Frame Height px (read only)",
+					Page = "Readout",
+				},
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput {
+					SourceOp = "UpRes_3",
+					Source = "Output",
+				},
+			},
+			ViewInfo = GroupInfo {
+				Pos = { 0, 0 },
+				Flags = { Expanded = true, AllowPan = false, GridSnap = true, ShowGrid = false, AutoSnap = true, RemoveRouters = false },
+				Size = { 300, 300, 150, 24 },
+				Direction = "Vertical",
+				PipeStyle = "Direct",
+				Scale = 1,
+				Offset = { 0, 0 }
+			},
+			Tools = ordered() {
+				CropBox_3 = RectangleMask {
+					CtrlWShown = false,
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" }, },
+						Solid = Input { Value = 0, },
+						BorderWidth = Input { Value = -0.001, },
+						MaskWidth = Input { Value = 3840, },
+						MaskHeight = Input { Value = 2160, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						ClippingMode = Input { Value = FuID { "None" }, },
+						Center = Input { Value = { 0.5, 0.5 }, },
+						Width = Input { Value = 0.4, },
+						Height = Input { Value = 0.4, },
+					},
+					ViewInfo = OperatorInfo { Pos = { -110, 0 } },
+				},
+				CropIn_3 = Crop {
+					Inputs = {
+						XOffset = Input {
+							Value = 0,
+							Expression = "floor(CropBox_3.Center.X * CropIn_3.Input.OriginalWidth - CropIn_3.XSize / 2 + 0.5)",
+						},
+						YOffset = Input {
+							Value = 0,
+							Expression = "floor(CropBox_3.Center.Y * CropIn_3.Input.OriginalHeight - CropIn_3.YSize / 2 + 0.5)",
+						},
+						XSize = Input {
+							Value = 100,
+							Expression = "floor(CropBox_3.Width * CropIn_3.Input.OriginalWidth + 0.5)",
+						},
+						YSize = Input {
+							Value = 100,
+							Expression = "floor(CropBox_3.Height * CropIn_3.Input.OriginalHeight + 0.5)",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 0, 66 } },
+				},
+				FrameProbe_3 = Crop {
+					Inputs = {
+						XSize = Input {
+							Value = 3840,
+							Expression = "CropIn_3.Input.OriginalWidth",
+						},
+						YSize = Input {
+							Value = 2160,
+							Expression = "CropIn_3.Input.OriginalHeight",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 150, 66 } },
+				},
+				UpRes_3 = BetterResize {
+					Inputs = {
+						FilterMethod = Input { Value = 8, },
+						Width = Input { Value = 3840, },
+						Height = Input {
+							Value = 3840,
+							Expression = "floor(UpRes_3.Width * CropIn_3.YSize / CropIn_3.XSize + 0.5)",
+						},
+						KeepAspect = Input { Value = 0, },
+						HiQOnly = Input { Value = 0, },
+						PixelAspect = Input { Value = { 1, 1 }, },
+						Input = Input {
+							SourceOp = "CropIn_3",
+							Source = "Output",
+						},
+					},
+					ViewInfo = OperatorInfo { Pos = { 0, 132 } },
+				},
+			},
+		},
+	}
+}

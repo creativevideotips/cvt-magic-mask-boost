@@ -9,6 +9,8 @@ From [Creative Video Tips](https://creativevideotips.com), created by Chadwick.
 Free to use and share. **Not for sale**: please don't sell these macros or
 redistribute them for payment.
 
+![The Setup 1 (4K) node row in the Fusion node editor](images/magic-mask-boost-node-row.webp)
+
 ## How it works
 
 Each Setup macro drops one row of nodes inside a labelled underlay:

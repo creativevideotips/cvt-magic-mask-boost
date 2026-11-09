@@ -57,20 +57,15 @@ The files in `parts/` are the In and Out macros on their own. Every Setup
 already contains them, so you don't need to install them. They're there if you
 want to build your own chain, for example with a different keyer in the middle.
 
-## Saver path setup (once)
+## Where the Saver writes
 
-The Saver's output path starts with the Fusion Path Map entry `Savers:`.
-Create it once in **Fusion > Fusion Settings > Path Map > New**:
-
-- From: `Savers:`
-- To: your projects folder (keep the trailing slash)
-
-Renders then land in
-`<projects folder>/<Project Name>/Savers/<Timeline_Clip_Source>/`.
+Nothing to set up. Each Saver writes into the current project's Media Storage:
+`ProjectMedia:/VFX/Savers/<Timeline_Source_TimelineIndex>/`.
 
 ## Notes
 
 - Magic Mask (and so these macros) needs DaVinci Resolve Studio.
+- These Setups are for the Fusion page in DaVinci Resolve only, not Fusion Studio.
 - Nodes already in a comp keep their old settings after you update the files.
   Add a fresh Setup to get the new version.
 - The version is in the file name. Version history is in

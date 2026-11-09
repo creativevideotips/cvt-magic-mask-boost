@@ -1,14 +1,16 @@
--- Saver path uses the Fusion Path Map entry Savers: (create it once in Fusion > Fusion Settings > Path Map, pointing at your projects folder).
--- cvt_MagicMask_3_Setup_4K_v1.03
+-- Saver path starts with ProjectMedia:/VFX/Savers/ (the project's Media Storage). For the Fusion page in DaVinci Resolve only, not Fusion Studio.
+-- cvt_MagicMask_2_Setup_4K_v1.06
 -- Created by Chadwick / Creative Video Tips (https://creativevideotips.com)
 -- Free to share, not for resale.
--- Drops pair 3 in a row at default values: In -> Magic Mask -> Out -> Saver. Connect your image to the In node.
--- v1.01: the row now sits in a teal MagicMaskBoost_3 underlay, so it's clear which nodes belong together.
+-- Drops pair 2 in a row at default values: In -> Magic Mask -> Out -> Saver. Connect your image to the In node.
+-- v1.01: the row now sits in a teal MagicMaskBoost_2 underlay, so it's clear which nodes belong together.
 -- v1.02: the nodes now sit on the underlay's centre line instead of along its top edge.
--- v1.03: "4K" added to the macro name and the underlay label is now MagicMaskBoost_3_4K, to match the 6K pair 6.
+-- v1.03: "4K" added to the macro name and the underlay label is now MagicMaskBoost_2_4K, to match the 6K pair 6.
+-- v1.05: Saver now writes to ProjectMedia:/VFX/Savers/ (no Savers: path map entry needed). Fusion page in DaVinci Resolve only. Folder name is now Timeline_Source_TimelineIndex.
+-- v1.06: Saver sets the DWAB compression level to 100 (it was left at the default of 45).
 {
 	Tools = ordered() {
-		cvt_MagicMaskBoost_In_3 = MacroOperator {
+		cvt_MagicMaskBoost_In_2 = MacroOperator {
 			CtrlWZoom = false,
 			CustomData = {
 				HelpPage = "https://creativevideotips.com",
@@ -17,81 +19,81 @@
 			Inputs = ordered() {
 				Comments = Input { Value = "Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.", },
 				MainInput1 = InstanceInput {
-					SourceOp = "CropIn_3",
+					SourceOp = "CropIn_2",
 					Source = "Input",
 					Name = "Image Input",
 				},
 				CropCenter = InstanceInput {
-					SourceOp = "CropBox_3",
+					SourceOp = "CropBox_2",
 					Source = "Center",
 					Name = "Crop Box Center",
 					Page = "Crop",
 				},
 				CropWidth = InstanceInput {
-					SourceOp = "CropBox_3",
+					SourceOp = "CropBox_2",
 					Source = "Width",
 					Name = "Crop Box Width",
 					Page = "Crop",
 					Default = 0.4,
 				},
 				CropHeight = InstanceInput {
-					SourceOp = "CropBox_3",
+					SourceOp = "CropBox_2",
 					Source = "Height",
 					Name = "Crop Box Height",
 					Page = "Crop",
 					Default = 0.4,
 				},
 				UpscaleWidth = InstanceInput {
-					SourceOp = "UpRes_3",
+					SourceOp = "UpRes_2",
 					Source = "Width",
 					Name = "Upscale Width (px)",
 					Page = "Crop",
 					Default = 3840,
 				},
 				UpFilterMethod = InstanceInput {
-					SourceOp = "UpRes_3",
+					SourceOp = "UpRes_2",
 					Source = "FilterMethod",
 					Name = "Upscale Filter Method",
 					Page = "Crop",
 				},
 				UpWindowMethod = InstanceInput {
-					SourceOp = "UpRes_3",
+					SourceOp = "UpRes_2",
 					Source = "WindowMethod",
 					Name = "Upscale Window Method",
 					Page = "Crop",
 				},
 				CropXOffset = InstanceInput {
-					SourceOp = "CropIn_3",
+					SourceOp = "CropIn_2",
 					Source = "XOffset",
 					Name = "Crop X Offset (read only)",
 					Page = "Readout",
 				},
 				CropYOffset = InstanceInput {
-					SourceOp = "CropIn_3",
+					SourceOp = "CropIn_2",
 					Source = "YOffset",
 					Name = "Crop Y Offset (read only)",
 					Page = "Readout",
 				},
 				CropXSize = InstanceInput {
-					SourceOp = "CropIn_3",
+					SourceOp = "CropIn_2",
 					Source = "XSize",
 					Name = "Crop Width px (read only)",
 					Page = "Readout",
 				},
 				CropYSize = InstanceInput {
-					SourceOp = "CropIn_3",
+					SourceOp = "CropIn_2",
 					Source = "YSize",
 					Name = "Crop Height px (read only)",
 					Page = "Readout",
 				},
 				FrameWidth = InstanceInput {
-					SourceOp = "FrameProbe_3",
+					SourceOp = "FrameProbe_2",
 					Source = "XSize",
 					Name = "Frame Width px (read only)",
 					Page = "Readout",
 				},
 				FrameHeight = InstanceInput {
-					SourceOp = "FrameProbe_3",
+					SourceOp = "FrameProbe_2",
 					Source = "YSize",
 					Name = "Frame Height px (read only)",
 					Page = "Readout",
@@ -99,7 +101,7 @@
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput {
-					SourceOp = "UpRes_3",
+					SourceOp = "UpRes_2",
 					Source = "Output",
 				},
 			},
@@ -113,7 +115,7 @@
 				Offset = { 0, 0 }
 			},
 			Tools = ordered() {
-				CropBox_3 = RectangleMask {
+				CropBox_2 = RectangleMask {
 					CtrlWShown = false,
 					Inputs = {
 						Filter = Input { Value = FuID { "Fast Gaussian" }, },
@@ -129,53 +131,53 @@
 					},
 					ViewInfo = OperatorInfo { Pos = { -110, 0 } },
 				},
-				CropIn_3 = Crop {
+				CropIn_2 = Crop {
 					Inputs = {
 						XOffset = Input {
 							Value = 0,
-							Expression = "floor(CropBox_3.Center.X * CropIn_3.Input.OriginalWidth - CropIn_3.XSize / 2 + 0.5)",
+							Expression = "floor(CropBox_2.Center.X * CropIn_2.Input.OriginalWidth - CropIn_2.XSize / 2 + 0.5)",
 						},
 						YOffset = Input {
 							Value = 0,
-							Expression = "floor(CropBox_3.Center.Y * CropIn_3.Input.OriginalHeight - CropIn_3.YSize / 2 + 0.5)",
+							Expression = "floor(CropBox_2.Center.Y * CropIn_2.Input.OriginalHeight - CropIn_2.YSize / 2 + 0.5)",
 						},
 						XSize = Input {
 							Value = 100,
-							Expression = "floor(CropBox_3.Width * CropIn_3.Input.OriginalWidth + 0.5)",
+							Expression = "floor(CropBox_2.Width * CropIn_2.Input.OriginalWidth + 0.5)",
 						},
 						YSize = Input {
 							Value = 100,
-							Expression = "floor(CropBox_3.Height * CropIn_3.Input.OriginalHeight + 0.5)",
+							Expression = "floor(CropBox_2.Height * CropIn_2.Input.OriginalHeight + 0.5)",
 						},
 					},
 					ViewInfo = OperatorInfo { Pos = { 0, 66 } },
 				},
-				FrameProbe_3 = Crop {
+				FrameProbe_2 = Crop {
 					Inputs = {
 						XSize = Input {
 							Value = 3840,
-							Expression = "CropIn_3.Input.OriginalWidth",
+							Expression = "CropIn_2.Input.OriginalWidth",
 						},
 						YSize = Input {
 							Value = 2160,
-							Expression = "CropIn_3.Input.OriginalHeight",
+							Expression = "CropIn_2.Input.OriginalHeight",
 						},
 					},
 					ViewInfo = OperatorInfo { Pos = { 150, 66 } },
 				},
-				UpRes_3 = BetterResize {
+				UpRes_2 = BetterResize {
 					Inputs = {
 						FilterMethod = Input { Value = 8, },
 						Width = Input { Value = 3840, },
 						Height = Input {
 							Value = 3840,
-							Expression = "floor(UpRes_3.Width * CropIn_3.YSize / CropIn_3.XSize + 0.5)",
+							Expression = "floor(UpRes_2.Width * CropIn_2.YSize / CropIn_2.XSize + 0.5)",
 						},
 						KeepAspect = Input { Value = 0, },
 						HiQOnly = Input { Value = 0, },
 						PixelAspect = Input { Value = { 1, 1 }, },
 						Input = Input {
-							SourceOp = "CropIn_3",
+							SourceOp = "CropIn_2",
 							Source = "Output",
 						},
 					},
@@ -183,28 +185,28 @@
 				},
 			},
 		},
-		MagicMask_3 = MagicMask {
+		MagicMask_2 = MagicMask {
 			Inputs = {
 				UseLegacyMagicMask = Input { Value = 0, },
 				Strokes = Input {
-					SourceOp = "MagicMask_3Strokes",
+					SourceOp = "MagicMask_2Strokes",
 					Source = "Value",
 				},
 				Input = Input {
-					SourceOp = "UpRes_3",
+					SourceOp = "UpRes_2",
 					Source = "Output",
 				}
 			},
 			ViewInfo = OperatorInfo { Pos = { 110, 0 } },
 			AlgoVersion = 1,
 		},
-		MagicMask_3Strokes = BezierSpline {
+		MagicMask_2Strokes = BezierSpline {
 			SplineColor = { Red = 242, Green = 186, Blue = 59 },
 			CtrlWZoom = false,
 			NameSet = true,
 			KeyFrames = { },
 		},
-		cvt_MagicMaskBoost_Out_3 = MacroOperator {
+		cvt_MagicMaskBoost_Out_2 = MacroOperator {
 			CtrlWZoom = false,
 			CustomData = {
 				HelpPage = "https://creativevideotips.com",
@@ -213,18 +215,18 @@
 			Inputs = ordered() {
 				Comments = Input { Value = "Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.", },
 				MainInput1 = InstanceInput {
-					SourceOp = "DownRes_3",
+					SourceOp = "DownRes_2",
 					Source = "Input",
 					Name = "Magic Mask Input",
 				},
 				DownFilterMethod = InstanceInput {
-					SourceOp = "DownRes_3",
+					SourceOp = "DownRes_2",
 					Source = "FilterMethod",
 					Name = "Downscale Filter Method",
 					Page = "Resize",
 				},
 				DownWindowMethod = InstanceInput {
-					SourceOp = "DownRes_3",
+					SourceOp = "DownRes_2",
 					Source = "WindowMethod",
 					Name = "Downscale Window Method",
 					Page = "Resize",
@@ -232,7 +234,7 @@
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput {
-					SourceOp = "FinalBitmap_3",
+					SourceOp = "FinalBitmap_2",
 					Source = "Mask",
 				},
 			},
@@ -246,19 +248,19 @@
 				Offset = { 0, 0 }
 			},
 			Tools = ordered() {
-				DownRes_3 = BetterResize {
+				DownRes_2 = BetterResize {
 					Inputs = {
 						Input = Input {
-							SourceOp = "MagicMask_3",
+							SourceOp = "MagicMask_2",
 							Source = "Output",
 						},
 						Width = Input {
 							Value = 100,
-							Expression = "CropIn_3.XSize",
+							Expression = "CropIn_2.XSize",
 						},
 						Height = Input {
 							Value = 100,
-							Expression = "CropIn_3.YSize",
+							Expression = "CropIn_2.YSize",
 						},
 						KeepAspect = Input { Value = 0, },
 						HiQOnly = Input { Value = 0, },
@@ -266,32 +268,32 @@
 					},
 					ViewInfo = OperatorInfo { Pos = { 0, 66 } },
 				},
-				PlaceBack_3 = Crop {
+				PlaceBack_2 = Crop {
 					Inputs = {
 						XOffset = Input {
 							Value = 0,
-							Expression = "-CropIn_3.XOffset",
+							Expression = "-CropIn_2.XOffset",
 						},
 						YOffset = Input {
 							Value = 0,
-							Expression = "-CropIn_3.YOffset",
+							Expression = "-CropIn_2.YOffset",
 						},
 						XSize = Input {
 							Value = 3840,
-							Expression = "FrameProbe_3.XSize",
+							Expression = "FrameProbe_2.XSize",
 						},
 						YSize = Input {
 							Value = 2160,
-							Expression = "FrameProbe_3.YSize",
+							Expression = "FrameProbe_2.YSize",
 						},
 						Input = Input {
-							SourceOp = "DownRes_3",
+							SourceOp = "DownRes_2",
 							Source = "Output",
 						},
 					},
 					ViewInfo = OperatorInfo { Pos = { 0, 132 } },
 				},
-				FinalBitmap_3 = BitmapMask {
+				FinalBitmap_2 = BitmapMask {
 					Inputs = {
 						Filter = Input { Value = FuID { "Fast Gaussian" }, },
 						PixelAspect = Input { Value = { 1, 1 }, },
@@ -299,7 +301,7 @@
 						ClippingMode = Input { Value = FuID { "None" }, },
 						Channel = Input { Value = FuID { "Alpha" }, },
 						Image = Input {
-							SourceOp = "PlaceBack_3",
+							SourceOp = "PlaceBack_2",
 							Source = "Output",
 						},
 					},
@@ -307,14 +309,14 @@
 				},
 			},
 		},
-		Saver_3 = Saver {
+		Saver_2 = Saver {
 			CtrlWZoom = false,
 			Inputs = {
-				Comments = Input { Value = "Output path starts with the Savers: path map entry. Create it once in Fusion > Fusion Settings > Path Map: click New, From = Savers: , To = your projects folder (keep the trailing slash). Change the To folder for each job. Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.", },
+				Comments = Input { Value = "Output goes to ProjectMedia:/VFX/Savers/ in the current project. Works on the Fusion page in DaVinci Resolve only (not Fusion Studio). Created by Chadwick / Creative Video Tips - creativevideotips.com. Free to share, not for resale.", },
 				ProcessWhenBlendIs00 = Input { Value = 0, },
 				Clip = Input {
 					Value = Clip {
-						Filename = "Savers:%{resolve:Project Name}/Savers/%{resolve:Timeline Name}_%{resolve:Clip Name}_%{resolve:Source Name}/%{resolve:Timeline Name}_%{resolve:Clip Name}_%{resolve:Source Name}_saver3/%{resolve:Timeline Name}_%{resolve:Clip Name}_%{resolve:Source Name}_saver3..exr",
+						Filename = "ProjectMedia:/VFX/Savers/%{resolve:Timeline Name}_%{resolve:Source Name}_%{resolve:Timeline Index}/%{resolve:Timeline Name}_%{resolve:Source Name}_%{resolve:Timeline Index}_saver2/%{resolve:Timeline Name}_%{resolve:Source Name}_%{resolve:Timeline Index}_saver2..exr",
 						FormatID = "OpenEXRFormat",
 						Length = 0,
 						Saving = true,
@@ -332,16 +334,17 @@
 				OutputFormat = Input { Value = FuID { "OpenEXRFormat" }, },
 				["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
 				Input = Input {
-					SourceOp = "FinalBitmap_3",
+					SourceOp = "FinalBitmap_2",
 					Source = "Mask",
 				},
 				["OpenEXRFormat.Depth"] = Input { Value = 1, },
 				["OpenEXRFormat.Compression"] = Input { Value = 9, },
-				["OpenEXRFormat.ZipCompressionLevel"] = Input { Value = 4, }
+				["OpenEXRFormat.ZipCompressionLevel"] = Input { Value = 4, },
+				["OpenEXRFormat.DWACompressionLevel"] = Input { Value = 100, }
 			},
 			ViewInfo = OperatorInfo { Pos = { 330, 0 } },
 		},
-		MagicMaskBoost_3_4K = Underlay {
+		MagicMaskBoost_2_4K = Underlay {
 			Colors = { TileColor = { R = 0, G = 0.596078431372549, B = 0.6 }, },
 			NameSet = true,
 			ViewInfo = UnderlayInfo {
